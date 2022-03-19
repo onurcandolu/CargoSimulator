@@ -1,15 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class MoneyController : MonoBehaviour
 {
+    [SerializeField] TextMeshProUGUI moneyText;
     private int currMoney {  get; set; }
     
 
     void Start()
     {
-        
+        currMoney = 400;
     }
 
     // Update is called once per frame
@@ -21,11 +23,10 @@ public class MoneyController : MonoBehaviour
     { 
         return currMoney;
     }
-        public bool increaseMoney(int _money)
+    public bool increaseMoney(int _money)
     {
-        Debug.Log(_money+" + " + currMoney +"= ");
         currMoney += _money;
-        Debug.Log(currMoney );
+        moneyText. text = currMoney.ToString();
         return currMoney == currMoney + _money ;
     }
     public bool decreaseMoney(int _money)
@@ -33,6 +34,7 @@ public class MoneyController : MonoBehaviour
         if(currMoney - _money >= 0)
         {
             currMoney -= _money;
+            moneyText.text = currMoney.ToString();
             return currMoney == currMoney - _money;
         }
         else

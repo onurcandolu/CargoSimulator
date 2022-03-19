@@ -12,7 +12,7 @@ public class LevelMaker : MonoBehaviour
     int nextPoint = 6;
     int newLevelPoint;
     int currLevel=1;
-    int needMoney = 5;
+    int needMoney = 100;
     int currMoney = 0;
 
     // Start is called before the first frame update

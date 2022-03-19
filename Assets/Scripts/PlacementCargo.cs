@@ -79,7 +79,7 @@ public class PlacementCargo : MonoBehaviour
             placementArea = other.gameObject.GetComponent<PlacementArea>();
             shelfNo = placementArea.shelf;
             regionNo = placementArea.region;
-            if(controller.carryItem == null)
+            if(controller.currItem == null)
                 StartCoroutine(unPlacement());
             else
                 StartCoroutine(Placement());

@@ -6,12 +6,10 @@ public class PlayerController : MonoBehaviour
 {
     private CharacterController controller;
     private Animator animator;
-    [HideInInspector] public GameObject carryItem;
+    [SerializeField] public GameObject showCargo;
     [SerializeField] int playerSpeed = 4;
     public List<CargoInfo> itemList;
     public CargoInfo currItem;
-    [SerializeField] GameObject cargoPrefab;
-
 
     private void Start()
     {
@@ -22,7 +20,11 @@ public class PlayerController : MonoBehaviour
     }
     void Update()
     {
-
+        if(Input.GetKeyDown(KeyCode.H))
+        {
+            itemList.Clear();
+            unCarrying();
+        }
 
         Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
 
@@ -43,13 +45,13 @@ public class PlayerController : MonoBehaviour
 
         var position = transform.position + transform.forward * 0.5f;
         position.y += 1.2f;
-        carryItem = Instantiate(cargoPrefab, position, Quaternion.identity, transform);
-
+        showCargo.SetActive(true);
     }
     public void unCarrying()
     {
         animator.SetBool("Carrying", false);
-        Destroy(carryItem);
+        showCargo.SetActive(false);
         currItem = null;
     }
+
 }
