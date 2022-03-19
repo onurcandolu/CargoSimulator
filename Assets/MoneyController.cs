@@ -17,8 +17,11 @@ public class MoneyController : MonoBehaviour
     {
         
     }
-
-    public bool increaseMoney(int _money)
+    public int getMoney()
+    { 
+        return currMoney;
+    }
+        public bool increaseMoney(int _money)
     {
         Debug.Log(_money+" + " + currMoney +"= ");
         currMoney += _money;
@@ -27,7 +30,7 @@ public class MoneyController : MonoBehaviour
     }
     public bool decreaseMoney(int _money)
     {
-        if(currMoney - _money > 0)
+        if(currMoney - _money >= 0)
         {
             currMoney -= _money;
             return currMoney == currMoney - _money;
