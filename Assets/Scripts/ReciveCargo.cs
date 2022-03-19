@@ -48,7 +48,6 @@ public class ReciveCargo : MonoBehaviour
     {
         if(controller.currItem == null)
         {
-
             while (remainingTime > 0 && onHold)
             {
                 Debug.Log("Cargo will take after " + remainingTime + " time");
@@ -57,8 +56,8 @@ public class ReciveCargo : MonoBehaviour
             }
             if(onHold)
             {
-                var shelf = Enumerable.Range(1, 3).OrderBy(g => Guid.NewGuid()).ToArray();  // 2 1 3
-                var region = Enumerable.Range(1, 5).OrderBy(g => Guid.NewGuid()).ToArray(); // 5 3 2 4 1
+                var shelf = Enumerable.Range(1, 3).OrderBy(g => Guid.NewGuid()).ToArray();  
+                var region = Enumerable.Range(1, 5).OrderBy(g => Guid.NewGuid()).ToArray();
 
                     int _shelf,_region;
                     if (cargoPlacementControl(shelf , region, out _shelf, out _region))

@@ -8,15 +8,19 @@ public class PlacementArea : MonoBehaviour
 {
     public int shelf;
     public int region;
+    public int section;
 
     public List<Vector3> cargoPosition;
-    public List<Vector3> hasCargo;
     [SerializeField] GameObject CargoPrefab;
+    [SerializeField] ReciveArea reciveArea;
+    public List<GameObject> PlacedCargo;
 
     private int counter;
     private List<int> rand;
     private void Start()
     {
+        section = reciveArea.section;
+        PlacedCargo = new List<GameObject>();
         cargoPosition = new List<Vector3>();
         cargoPosition.Add(new Vector3(0,0.8f,1.3f));
         cargoPosition.Add(new Vector3(0, 1.3f, 1.3f));
@@ -29,8 +33,13 @@ public class PlacementArea : MonoBehaviour
     {
         var randomPosition = cargoPosition[rand[counter]];
         counter++;
-        hasCargo.Add(randomPosition);
-        Instantiate(CargoPrefab,randomPosition+transform.position,Quaternion.identity);
+        PlacedCargo.Add(Instantiate(CargoPrefab,randomPosition+transform.position,Quaternion.identity));
+    }
+    public void cargoUnPlacement()
+    {
+        Destroy(PlacedCargo[PlacedCargo.Count - 1]);
+        PlacedCargo.RemoveAt(PlacedCargo.Count-1);
+        counter--;
     }
 
 }

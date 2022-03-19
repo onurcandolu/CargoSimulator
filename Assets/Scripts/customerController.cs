@@ -110,6 +110,7 @@ public class customerController : MonoBehaviour
       
         spawnCustomers.queueCustomersPoint[path[0].position] = null;
         spawnCustomers.inQueueCustomersList.Remove(gameObject);
+        spawnCustomers.customerWillExit();
 
         animator.SetBool("Walk", true);
         navMesh.isStopped = false;
@@ -126,7 +127,7 @@ public class customerController : MonoBehaviour
 
     }
 
-    private void ShowMessage()
+    public void ShowMessage()
     {
             Debug.Log(wishList.shelf + " - " + wishList.region + " Cargo is mine Want it.");
     }

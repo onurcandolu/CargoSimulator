@@ -6,41 +6,59 @@ using UnityEngine;
 
 public class SpawnCustomers : MonoBehaviour
 {
-    [SerializeField] PlayerController controller;
+    PlayerController controller;
     [SerializeField] List<GameObject> customers;
     [SerializeField] ReciveArea ReciveArea;
     public List<GameObject> inQueueCustomersList;
+    int QueueWillBe;
     public List<Transform> path;
     public Dictionary<Vector3, customerController> queueCustomersPoint;
-    int QueueNumber;
+    int QueueLimit = 4;
     public List<CargoInfo> wishList;
-    // didem kesit bunu yap4
+   
     void Start()
     {
+        controller = FindObjectOfType<PlayerController>();
         queueCustomersPoint = new Dictionary<Vector3, customerController>();
         foreach (var p in path)
             queueCustomersPoint.Add(p.transform.position, null);
         inQueueCustomersList = new List<GameObject>();
         wishList = new List<CargoInfo>();
+        InvokeRepeating("spawnEachSecond",1,2);
     }
 
     void Update()
     {
-       
+
+    }
+
+    void spawnEachSecond()
+    {
+        if(canSpawnCustomer())
+            StartCoroutine(spawner());
     }
 
     public IEnumerator spawner()
     {
-        if(QueueNumber < 4)
+        if(isQueueNotFull())
         {
-            QueueNumber++;
+            customerWillCome();
             var rand = Enumerable.Range(0, customers.Count()).OrderBy(x => Guid.NewGuid()).Take(1).ToList();
-            var spawnSec = Enumerable.Range(1, 1).OrderBy(x => Guid.NewGuid()).Take(1).ToList();
+            var spawnSec = Enumerable.Range(4, 30).OrderBy(x => Guid.NewGuid()).Take(1).ToList();
             yield return new WaitForSeconds(spawnSec[0]);
             createCustomer(rand);
         }
     }
 
+    public void customerWillExit()
+    {
+        QueueWillBe--;
+    }
+
+    void customerWillCome()
+    {
+        QueueWillBe++;
+    }
     void createCustomer(List<int> rand)
     {
         var customer = Instantiate(customers[rand[0]], transform.position, Quaternion.identity, transform);
@@ -55,4 +73,8 @@ public class SpawnCustomers : MonoBehaviour
         customerContoller.wishList = cargoInfo;
         inQueueCustomersList.Add(customer);
     }
+    private bool canSpawnCustomer() => isQueueNotFull()
+                                    && QueueWillBe < controller.itemList.Where(x => x.section == ReciveArea.section).Count();
+    private bool isQueueNotFull() => QueueWillBe < QueueLimit;
+
 }

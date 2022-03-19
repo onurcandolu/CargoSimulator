@@ -6,20 +6,21 @@ public class PlayerController : MonoBehaviour
 {
     private CharacterController controller;
     private Animator animator;
-    private Vector3 playerVelocity;
-    public GameObject carryItem;
+    [HideInInspector] public GameObject carryItem;
     [SerializeField] int playerSpeed = 4;
     public List<CargoInfo> itemList;
     public CargoInfo currItem;
     [SerializeField] GameObject cargoPrefab;
 
-
+    [SerializeField] GameObject Test;
 
     private void Start()
     {
         itemList = new List<CargoInfo>();
         controller = gameObject.GetComponent<CharacterController>();
-        animator = gameObject.GetComponent<Animator>(); 
+        animator = gameObject.GetComponent<Animator>();
+        var nextLevel = Instantiate(Test,new Vector3(0,0,-10),new Quaternion(0, 180,0,0));
+        nextLevel.GetComponentInChildren<ReciveArea>().section = 2;
     }
     void Update()
     {
