@@ -12,15 +12,13 @@ public class PlayerController : MonoBehaviour
     public CargoInfo currItem;
     [SerializeField] GameObject cargoPrefab;
 
-    [SerializeField] GameObject Test;
 
     private void Start()
     {
         itemList = new List<CargoInfo>();
         controller = gameObject.GetComponent<CharacterController>();
         animator = gameObject.GetComponent<Animator>();
-        var nextLevel = Instantiate(Test,new Vector3(0,0,-10),new Quaternion(0, 180,0,0));
-        nextLevel.GetComponentInChildren<ReciveArea>().section = 2;
+       
     }
     void Update()
     {

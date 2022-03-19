@@ -7,6 +7,8 @@ using UnityEngine.AI;
 
 public class customerController : MonoBehaviour
 {
+    PlayerController playerController;
+
     [SerializeField] NavMeshAgent navMesh;
     [SerializeField] Animator animator;
     SpawnCustomers spawnCustomers;
@@ -20,6 +22,7 @@ public class customerController : MonoBehaviour
     Vector3 targetPath;
     void Start()
     {
+        playerController = FindObjectOfType<PlayerController>();
         ExitGamePoint = transform.position;
         path = new List<Transform>(unChangeblePath);
         spawnCustomers = transform.parent.GetComponent<SpawnCustomers>();
@@ -107,7 +110,10 @@ public class customerController : MonoBehaviour
     }
     public void ExitGame()
     {
-      
+        var rand = Enumerable.Range(10, 100).OrderBy(x => Guid.NewGuid()).Take(1).ToList();
+
+        playerController.GetComponent<MoneyController>().increaseMoney(rand[0]);
+
         spawnCustomers.queueCustomersPoint[path[0].position] = null;
         spawnCustomers.inQueueCustomersList.Remove(gameObject);
         spawnCustomers.customerWillExit();
@@ -123,6 +129,7 @@ public class customerController : MonoBehaviour
         {
             customer.GetComponent<customerController>().Next();
         }
+
 
 
     }

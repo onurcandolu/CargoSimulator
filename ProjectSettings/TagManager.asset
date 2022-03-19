@@ -7,6 +7,7 @@ TagManager:
   - Carrier
   - TakeArea
   - Shelf
+  - Next Level
   layers:
   - Default
   - TransparentFX
