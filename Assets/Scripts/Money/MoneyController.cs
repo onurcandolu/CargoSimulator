@@ -11,7 +11,7 @@ public class MoneyController : MonoBehaviour
 
     void Start()
     {
-        currMoney = 400;
+        currMoney = 1000;
     }
 
     // Update is called once per frame
@@ -35,7 +35,7 @@ public class MoneyController : MonoBehaviour
         {
             currMoney -= _money;
             moneyText.text = currMoney.ToString();
-            return currMoney == currMoney - _money;
+            return true;
         }
         else
             return false;

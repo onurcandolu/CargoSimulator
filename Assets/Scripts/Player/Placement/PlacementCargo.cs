@@ -1,14 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 
 public class PlacementCargo : MonoBehaviour
 {
     [SerializeField] PlayerController controller;
+    [SerializeField] TextMeshPro Timer;
+    [SerializeField] SpawnCustomers SpawnCustomers;
     [SerializeField] float CargoPlacementTime = 3;
     [SerializeField] float CargoUnPlacementTime = 4;
-    [SerializeField] SpawnCustomers SpawnCustomers;
     float remainingPlaceTime;
     float remainingUnPlaceTime;
     int regionNo;
@@ -28,39 +30,42 @@ public class PlacementCargo : MonoBehaviour
     }
     private IEnumerator Placement()
     {
-            while (remainingPlaceTime > 0 && isCargoSame(controller.currItem))
+        while (remainingPlaceTime > 0 && isCargoSame(controller.currItem))
         {
-                Debug.Log("Cargo will placement after " + remainingPlaceTime + " time");
-                yield return new WaitForSeconds(1f);
-                remainingPlaceTime--;
-            }
-            if(controller.currItem != null && isCargoSame(controller.currItem))
-            {
-                Debug.Log("Cargo Placed..");
-                placementArea.cargoPlacement();
-                controller.unCarrying();
-            }
-            else
-                remainingPlaceTime = CargoPlacementTime;
+            Timer.text = remainingPlaceTime.ToString();
 
-            yield return null;
+            yield return new WaitForSeconds(1f);
+            remainingPlaceTime--;
+        }
+        Timer.text = "";
+
+        if (controller.currItem != null && isCargoSame(controller.currItem))
+        {
+            Debug.Log("Cargo Placed..");
+            placementArea.cargoPlacement();
+            controller.unCarrying();
+        }
+        else
+            remainingPlaceTime = CargoPlacementTime;
+
+        yield return null;
     }
     private IEnumerator unPlacement()
     {
 
        if(placementArea.PlacedCargo.Count>0)
         {
-            while (remainingPlaceTime > 0 && onHold)
+            while (remainingUnPlaceTime > 0 && onHold)
             {
-                Debug.Log("Cargo will take after " + remainingPlaceTime + " time");
+                Timer.text = remainingUnPlaceTime.ToString();
                 yield return new WaitForSeconds(1f);
-                remainingPlaceTime--;
+                remainingUnPlaceTime--;
             }
+            Timer.text = "";
             if (onHold)
             {
-                var cargo = controller.itemList.Where(x => x.shelf == shelfNo && x.region == regionNo && x.section == placementArea.section).ToList();
+                var cargo = controller.itemList.Where(x => x.shelf == shelfNo && x.region == regionNo && x.section == placementArea.section).Take(1).ToList();
                 controller.currItem = cargo[0];
-                Debug.Log("Cargo Taked.." + cargo[0].shelf + " - " + cargo[0].region);
                 placementArea.cargoUnPlacement();
                 controller.Carrying();
             }
@@ -91,12 +96,15 @@ public class PlacementCargo : MonoBehaviour
     {
         if (other.CompareTag("Shelf"))
         {
+            StopAllCoroutines();
             onHold = false;
             placementArea = null;
             shelfNo = 0;
             regionNo = 0;
             remainingPlaceTime = CargoPlacementTime;
             remainingUnPlaceTime = CargoUnPlacementTime;
+            Timer.text = "";
+
 
         }
     }

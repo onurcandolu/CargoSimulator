@@ -1288,7 +1288,6 @@ GameObject:
   - component: {fileID: 9105079087057835331}
   - component: {fileID: 4207377146594299904}
   - component: {fileID: 2361692187799115931}
-  - component: {fileID: 1483005695261996813}
   - component: {fileID: 3173490533246741338}
   m_Layer: 0
   m_Name: Region1
@@ -1372,14 +1371,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
---- !u!222 &1483005695261996813
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7470099733679513900}
-  m_CullTransparentMesh: 1
 --- !u!114 &3173490533246741338
 MonoBehaviour:
   m_ObjectHideFlags: 0

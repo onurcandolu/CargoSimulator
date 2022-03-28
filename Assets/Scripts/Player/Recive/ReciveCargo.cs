@@ -2,11 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 
 public class ReciveCargo : MonoBehaviour
 {
-    [SerializeField] PlayerController controller;
+    [SerializeField] TextMeshPro Timer;
+    PlayerController controller;
     [SerializeField] float CargoReciveTime = 3;
     int reciveAreaNo;
     float remainingTime;
@@ -14,6 +16,7 @@ public class ReciveCargo : MonoBehaviour
 
     void Start()
     {
+        controller = gameObject.GetComponent<PlayerController>();
         remainingTime = CargoReciveTime;
     }
 
@@ -23,7 +26,6 @@ public class ReciveCargo : MonoBehaviour
     }
     private bool cargoPlacementControl(int[] shelf, int[] region, out int _shelf, out int _region)
     {
-         // tüm alan iþin kontrol var ama tek bir raf için kontrol 5 taneye kadar sýnýrlandýrýlmalý
         if (controller.itemList.Where(x => x.section == reciveAreaNo).Count() !=75) 
         {
             for(int i = 0; i<region.Length;i++)
@@ -50,10 +52,12 @@ public class ReciveCargo : MonoBehaviour
         {
             while (remainingTime > 0 && onHold)
             {
-                Debug.Log("Cargo will take after " + remainingTime + " time");
+                
+                Timer.text = remainingTime.ToString();
                 yield return new WaitForSeconds(1f);
                 remainingTime--;
             }
+            Timer.text = "";
             if(onHold)
             {
                 var shelf = Enumerable.Range(1, 3).OrderBy(g => Guid.NewGuid()).ToArray();  
@@ -95,9 +99,11 @@ public class ReciveCargo : MonoBehaviour
     {
         if (other.CompareTag("TakeArea"))
         {
+            StopAllCoroutines();
             reciveAreaNo = 0;
             remainingTime = CargoReciveTime;
             onHold = false;
+            Timer.text = "";
         }
     }
 }

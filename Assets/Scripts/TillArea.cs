@@ -6,17 +6,14 @@ using UnityEngine;
 public class TillArea : MonoBehaviour
 {
     public SpawnCustomers spawnCustomers;
-    public PlayerController playerController;
-    // Start is called before the first frame update
+    PlayerController playerController;
     void Start()
     {
         playerController = FindObjectOfType<PlayerController>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
     }
 
     private void OnTriggerEnter(Collider other)

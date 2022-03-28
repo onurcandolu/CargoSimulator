@@ -2,13 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class customerController : MonoBehaviour
 {
     PlayerController playerController;
-
+    [SerializeField] TextMeshPro wishText;
     [SerializeField] NavMeshAgent navMesh;
     [SerializeField] Animator animator;
     SpawnCustomers spawnCustomers;
@@ -20,6 +21,7 @@ public class customerController : MonoBehaviour
     float distance;
     bool controll;
     Vector3 targetPath;
+    
     void Start()
     {
         playerController = FindObjectOfType<PlayerController>();
@@ -41,22 +43,9 @@ public class customerController : MonoBehaviour
             distance = Vector3.Distance(transform.position, targetPath);
             Controll();
         }
-        /* if(pathQueue <= path.Count())
-             distance = Vector3.Distance(transform.position, path[pathQueue]);
-         if (0.5> distance && isAsk == false)
-         {
-             pathQueue++;
-             if(pathQueue == 2)
-             {
-                 animator.SetBool("Walk", false);
-                 navMesh.isStopped = true;
-             }
-         }
-         if(navMesh.isStopped && isAsk == false)
-         {
-             isAsk = true;
-             ShowMessage();
-         }*/
+
+      
+
     }
     private void Next()
     {
@@ -72,6 +61,11 @@ public class customerController : MonoBehaviour
         controll = true;
         navMesh.SetDestination(targetPath);
 
+        if (isAsk == false && path.Count == 1)
+        {
+            isAsk = true;
+            ShowMessage();
+        }
 
     }
     void Controll()
@@ -130,12 +124,13 @@ public class customerController : MonoBehaviour
             customer.GetComponent<customerController>().Next();
         }
 
+        wishText.text = "";
 
 
     }
 
     public void ShowMessage()
     {
-            Debug.Log(wishList.shelf + " - " + wishList.region + " Cargo is mine Want it.");
+        wishText.text = wishList.shelf + " - " + wishList.region + " Cargo is mine Want it.";
     }
 }
